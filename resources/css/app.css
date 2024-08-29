@@ -1,3 +1,44 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Hide scrollbar for Chrome, Safari, and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+    /* Firefox */
+}
+
+.my-sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999999;
+    transform: translateY(-100%);
+    opacity: 0;
+    animation: slideDown 0.4s ease-out forwards;
+    /* Tambahkan delay jika ingin ada jeda sebelum animasi mulai */
+    animation-delay: 0.5s;
+}
+
+@keyframes slideDown {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.multiline-ellipsis {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
