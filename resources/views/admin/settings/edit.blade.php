@@ -1,11 +1,13 @@
 <x-admin-layout>
     @slot('title', 'Settings')
 
+    <x-header heading="Admin Settings" />
     <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
-        <div class="mb-4 col-span-full xl:mb-2">
+        {{-- <div class="mb-4 col-span-full xl:mb-2">
             <x-breadcrumbs />
             <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Admin settings</h1>
-        </div>
+        </div> --}}
+
         <!-- Right Content -->
         <div class="col-span-full xl:col-auto">
             <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
@@ -17,12 +19,12 @@
                         <div class="mb-4 text-sm text-gray-500 dark:text-gray-400">
                             JPG, JPEG or PNG. Max size of 2MB
                         </div>
-                        <form id="profile-image-form" action="{{ route('profile.image.update') }}" method="POST" enctype="multipart/form-data" class="flex items-center space-x-4">
+                        <form id="profile-image-form" action="{{ route('admin.profile.image.update') }}" method="POST" enctype="multipart/form-data" class="flex items-center space-x-4">
                             @method("PATCH")
                             @csrf
                             <div>
                                 <label role="button" for="profile-image-input"
-                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-100 dark:focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
                                     <svg class="w-4 h-4 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path
                                             d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13H5.5z">
@@ -34,7 +36,7 @@
                                 <input id="profile-image-input" name="image" type="file" class="hidden" />
                             </div>
 
-                            <x-button.alternative type="submit" class="!py-2">Save</x-button.alternative>
+                            <x-button.light type="submit" class="!py-2">Save</x-button.light>
                         </form>
                     </div>
                 </div>
@@ -48,8 +50,8 @@
             <div
                 class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                 <h3 class="mb-4 text-xl font-semibold dark:text-white">General information</h3>
-                <form action="{{ route('profile.update') }}" method="POST">
-                    @method('PATCH')
+                <form action="{{ route('admin.profile.update') }}" method="POST">
+                    @method('PUT')
                     @csrf
                     <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
@@ -111,9 +113,7 @@
                             <x-input.error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
                         </div>
                         <div class="col-span-6 sm:col-full">
-                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
-                                Save
-                            </button>
+                            <x-button type="submit" class="!py-2">Save</x-button>
                         </div>
                     </div>
                 </form>
@@ -173,9 +173,7 @@
                         </li>
                     </ul>
                     <div>
-                        <button
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">See
-                            more</button>
+                        <x-button class="!py-2">See more</x-button>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('is_active');
             $table->integer('position');
             $table->string('url');
-            $table->string('banner');
+            $table->string('image');
             $table->timestamps();
         });
     }

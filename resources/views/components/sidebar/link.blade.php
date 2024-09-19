@@ -3,8 +3,6 @@
     'icon' => '',
     'text' => '',
     'href' => '#',
-    'buttonTriggerIdentifier' => '',
-    'collapseIdentifier' => '',
     'collapseItems' => [],
     'valueIndicator' => null,
 ])
@@ -13,12 +11,10 @@
     <a href="{{ $href }}"
         class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700">
         @if ($icon)
-            {{-- @includeIf('components.svgs.' . $icon) --}}
-            <i
-                class="{{ $icon }} block flex-shrink-0 text-2xl text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
+            <i class="{{ $icon }} block flex-shrink-0 text-2xl text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
         @endif
 
-        <span class="ml-3" sidebar-toggle-item="">{{ $text }}</span>
+        <span class="ml-3">{{ $text }}</span>
 
         @if ($valueIndicator)
             <span
@@ -26,14 +22,14 @@
         @endif
     </a>
 @elseif ($type === 'collapse')
-    <div>
-        <button id="{{ $buttonTriggerIdentifier }}" aria-controls="{{ $collapseIdentifier }}"
-            data-collapse-toggle="{{ $collapseIdentifier }}" type="button"
-            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700">
+    <div x-data="{ open: false }">
+        <button
+            x-on:click="open = !open"
+            type="button"
+            class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+        >
             @if ($icon)
-                {{-- @includeIf('components.svgs.' . $icon) --}}
-                <i
-                    class="{{ $icon }} block flex-shrink-0 text-2xl text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
+                <i class="{{ $icon }} block flex-shrink-0 text-2xl text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"></i>
             @endif
             <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item="">{{ $text }}</span>
             <svg sidebar-toggle-item="" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
@@ -43,7 +39,7 @@
                     clip-rule="evenodd"></path>
             </svg>
         </button>
-        <ul id="{{ $collapseIdentifier }}" class="hidden py-2 space-y-2">
+        <ul x-show="open" x-bind:class="!open ? 'hidden' : ''" class="py-2 space-y-2">
             @foreach ($collapseItems as $item)
                 <li>
                     <a href="{{ $item['href'] }}"

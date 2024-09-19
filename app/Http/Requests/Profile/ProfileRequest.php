@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Profile;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends FormRequest
+class ProfileRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -18,7 +18,10 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'phone' => ['nullable', 'string', 'regex:/^\+?[0-9]{7,15}$/']
+            'phone' => [
+                'nullable',
+                'regex:/^(\+\d{1,3}\s?)?(\(?\d{1,4}\)?[\s.-]?)?\d{1,4}([\s.-]?\d{1,4}){1,4}$/',
+            ],
         ];
     }
 }

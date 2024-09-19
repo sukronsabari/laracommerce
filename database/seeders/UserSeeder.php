@@ -19,24 +19,24 @@ class UserSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'role' => UserRole::Admin,
-            'image' => 'images/users/default.jpg'
+            'image' => 'images/users/default.png'
         ]);
         User::factory()->count(1)->create([
-            'name' => 'vendor',
-            'email' => 'vendor@example.com',
+            'name' => 'merchant',
+            'email' => 'merchant@example.com',
             'password' => bcrypt('password'),
-            'role' => UserRole::Vendor,
-            'image' => 'images/users/default.jpg'
+            'role' => UserRole::Merchant,
+            'image' => 'images/users/default.png'
         ]);
         User::factory()->count(1)->create([
             'name' => 'user',
             'email' => 'user@example.com',
             'password' => bcrypt('password'),
             'role' => UserRole::User,
-            'image' => 'images/users/default.jpg'
+            'image' => 'images/users/default.png'
         ]);
         User::factory()->count(15)->create([
-            'image' => 'images/users/default.jpg'
+            'image' => 'images/users/default.png'
         ]);
     }
 }

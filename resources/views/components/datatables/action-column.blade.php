@@ -1,6 +1,10 @@
 <div class="flex items-center space-x-2 whitespace-nowrap">
     @isset ( $viewLink )
-        <a href="{{ $viewLink }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <a
+            x-data="{ queryParams: '' }"
+            x-init="queryParams = new URLSearchParams(window.location.search).toString();"
+            x-on:click.prevent="window.location.href = '{{ $viewLink }}' + (queryParams ? '?' + queryParams : '')"
+            class="text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                 viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-width="2"
@@ -12,7 +16,11 @@
     @endif
 
     @isset ( $editLink )
-        <a href="{{ $editLink }}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <button
+        x-data="{ queryParams: '' }"
+        x-init="queryParams = new URLSearchParams(window.location.search).toString();"
+        x-on:click.prevent="window.location.href = '{{ $editLink }}' + (queryParams ? '?' + queryParams : '')"
+        class="text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-100 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center dark:focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
                 </path>
@@ -20,7 +28,7 @@
                     clip-rule="evenodd"></path>
             </svg>
             <span class="sr-only">Edit item</span>
-        </a>
+        </button>
     @endif
 
     @isset ( $deleteLink )
@@ -66,11 +74,17 @@
                         <svg class="w-16 h-16 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                        <h3 class="mt-5 mb-6 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this slider?</h3>
+                        <h3 class="mt-5 mb-6 text-lg text-gray-500 dark:text-gray-400">Are you sure you want to delete this item?</h3>
                         <div class="flex items-center justify-center gap-3">
-                            <form action="{{ $deleteLink }}" method="POST" x-data>
+                            <form
+                                x-data="{ queryParams: '' }"
+                                x-init="queryParams = new URLSearchParams(window.location.search).toString();"
+                                :action="queryParams ? '{{ $deleteLink }}' + '?' + queryParams : '{{ $deleteLink }}'"
+                                method="POST"
+                            >
                                     @method('DELETE')
                                     @csrf
+
                                     <x-button.danger type="submit">
                                         Delete
                                     </x-button.danger>

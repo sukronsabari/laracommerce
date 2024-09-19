@@ -3,12 +3,12 @@
         [
             'label' => 'Active',
             'value' => '1',
-            'selected' => old('is_active', $slider->is_active) == '1'
+            'selected' => old('is_active', $slider->is_active) == 1
         ],
         [
             'label' => 'Non Active',
             'value' => '0',
-            'selected' => old('is_active', $slider->is_active) == '0'
+            'selected' => old('is_active', $slider->is_active) == 0
         ],
     ];
 @endphp
@@ -25,7 +25,7 @@
     {{-- Content --}}
     <div class="px-4 pt-6">
         <div class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 text-gray-900 dark:text-white">
-            <form action="{{ route('admin.sliders.update') }}" method="POST">
+            <form action="{{ route('admin.sliders.update', ['slider' => $slider, 'callbackUrl' => request()->query('callbackUrl')]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="grid grid-cols-6 gap-6">
@@ -75,16 +75,16 @@
                     <div class="col-span-6 bg-white border border-gray-200 rounded-lg shadow-sm  dark:border-gray-700 p-4 sm:p-6 dark:bg-gray-800">
                         <div class="flex flex-col gap-4">
                             <div>
-                                <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">Banner Preview</h3>
-                                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Upload a new image to replace the banner</p>
-                                <img id="banner-image" class="rounded-lg w-full h-full object-cover aspect-[1300/500]" src="{{ \Illuminate\Support\Facades\Storage::url($slider->banner) }}" alt="Image Profile">
+                                <h3 class="mb-1 text-xl font-bold text-gray-900 dark:text-white">Image Preview</h3>
+                                <p class="mb-3 text-sm text-gray-500 dark:text-gray-400">Upload a new image to replace the category image</p>
+                                <img id="slider-image-preview" class="rounded-lg w-full h-full object-cover aspect-[1300/500]" src="{{ \Illuminate\Support\Facades\Storage::url($slider->image) }}" alt="Image Profile">
                             </div>
                             <div>
-                                <x-input.file id="banner" type="file" name="banner" />
+                                <x-input.file id="image-input" type="file" name="image" />
                                 <div class="mt-1 text-sm text-gray-500 dark:text-gray-400">
                                     JPG, JPEG or PNG. Max size of 5MB with 13:5 Ratio
                                 </div>
-                                @error('banner')
+                                @error('image')
                                 <x-input.error :messages="$message" class="mt-2" />
                                 @enderror
                             </div>
@@ -100,13 +100,13 @@
     </div>
 
     <script>
-        const input = document.getElementById('banner');
+        const input = document.getElementById('image-input');
         const previewPhoto = () => {
             const file = input?.files;
 
             if (file) {
                 const fileReader = new FileReader();
-                const preview = document.getElementById('banner-image');
+                const preview = document.getElementById('slider-image-preview');
 
                 fileReader.onload = function (event) {
                     preview.setAttribute('src', event.target.result);

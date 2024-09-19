@@ -66,14 +66,17 @@
                         @enderror
                     </div>
                     <div class="col-span-6">
-                        <x-input.label for="banner">Banner</x-input.label>
-                        <x-input.file id="banner" type="file" name="banner" />
-                        @error('banner')
+                        <x-input.label for="image">Image</x-input.label>
+                        <x-input.file id="image" type="file" name="image" />
+                        @error('image')
                         <x-input.error :messages="$message" class="mt-2" />
                         @enderror
                     </div>
                     <div class="col-span-6 flex justify-end">
-                        <x-button type="submit">Create</x-button>
+                        <div class="flex items-center space-x-3">
+                            <x-button type="submit">Create</x-button>
+                            <x-button.light type="submit" name="create_another">Create & Create Another</x-button.light>
+                        </div>
                     </div>
                 </div>
             </form>

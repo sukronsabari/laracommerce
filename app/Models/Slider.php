@@ -16,6 +16,6 @@ class Slider extends Model
         'is_active',
         'position',
         'url',
-        'banner',
+        'image',
     ];
 }

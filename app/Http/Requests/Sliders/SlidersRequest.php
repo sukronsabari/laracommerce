@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Sliders;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -27,10 +27,10 @@ class SlidersRequest extends FormRequest
             'subtitle' => ['required', 'string', 'min:3', 'max:255'],
             'starting_price' => ['required', 'numeric', 'min:0'],
             'position' => ['required', 'numeric', 'min:1'],
-            'is_active' => ['required', 'string', 'in:0,1'],
+            'is_active' => ['required', 'boolean'],
             'url' => ['required', 'string', 'min:3', 'max:255'],
-            'banner' => [
-                $this->method() == 'POST' ? 'required' : 'nullable',
+            'image' => [
+                $this->method() ==='POST' ? 'required' : 'nullable',
                 'image',
                 'mimes:png,jpg,jpeg',
                 'max:5000'

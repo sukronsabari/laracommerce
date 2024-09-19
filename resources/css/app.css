@@ -42,3 +42,40 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+a#add-button-before-toolbar {
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+    a#add-button-before-toolbar {
+        margin-left: auto;
+    }
+}
+
+.ts-control,
+.ts-wrapper.single.input-active .ts-control {
+    background: transparent !important;
+}
+
+.ts-control {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.ts-dropdown {
+    background: #f9fafb !important;
+}
+
+.dark .ts-dropdown {
+    background: #374151 !important;
+    color: #f9fafb !important;
+    border: 1px solid #475569 !important;
+}
+
+.ts-wrapper.multi .ts-control>div {
+    background: #31c48d !important;
+    color: white !important;
+    border-radius: .25rem;
+}

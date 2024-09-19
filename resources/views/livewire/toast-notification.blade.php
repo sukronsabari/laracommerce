@@ -7,10 +7,10 @@
         x-transition:leave="transition ease-in duration-300"
         x-transition:leave-start="opacity-100 transform translate-x-0"
         x-transition:leave-end="opacity-0 transform translate-x-20"
-        class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 {{ $type === 'success' ? 'bg-white text-green-500' : '' }} {{ $type === 'danger' ? 'bg-white text-red-500' : '' }} {{ $type === 'warning' ? 'bg-white text-orange-500' : '' }}"
+        class="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 rounded-lg shadow bg-white dark:text-gray-400 dark:bg-gray-800 {{ $type === 'success' ? 'bg-white text-green-500' : '' }} {{ $type === 'danger' ? 'bg-white text-red-500' : '' }} {{ $type === 'warning' ? 'bg-white text-orange-500' : '' }}"
         role="alert">
         <div
-            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg {{ $type === 'success' ? 'bg-green-100 text-green-500' : '' }} {{ $type === 'danger' ? 'bg-red-100 text-red-500' : '' }} {{ $type === 'warning' ? 'bg-orange-100 text-orange-500' : '' }}">
+            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-gray-100 text-gray-600 {{ $type === 'success' ? 'bg-green-100 text-green-500' : '' }} {{ $type === 'danger' ? 'bg-red-100 text-red-500' : '' }} {{ $type === 'warning' ? 'bg-orange-100 text-orange-500' : '' }}">
             @if($type === 'success')
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -25,6 +25,14 @@
             <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                 <path
                     d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
+            </svg>
+            @else
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon icon-tabler icons-tabler-outline icon-tabler-info-small">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 9h.01" />
+                <path d="M11 12h1v4h1" />
             </svg>
             @endif
             {{-- <span class="sr-only" x-text="type.charAt(0).toUpperCase() + type.slice(1) + ' icon'"></span> --}}

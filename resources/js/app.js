@@ -2,13 +2,42 @@ import "./bootstrap";
 import "flowbite";
 import "./charts";
 
-import '../../vendor/rappasoft/laravel-livewire-tables/resources/imports/laravel-livewire-tables-all.js';
+import "../../vendor/rappasoft/laravel-livewire-tables/resources/imports/laravel-livewire-tables-all.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     initDarkMode();
     initSubNavSticky();
     initSidebar();
-    countDown();
+});
+
+document.addEventListener("alpine:init", () => {
+    Alpine.data("merchantSelect", () => ({
+        init() {
+            new TomSelect(this.$el.querySelector("#merchant-select"), {
+                valueField: "id",
+                labelField: "name",
+                searchField: "name",
+                create: false,
+                load: function (query, callback) {
+                    if (!query.length) return callback(); // Jika input kosong, jangan muat data
+
+                    // Mengambil data dari endpoint API
+                    fetch("/api/merchants?search=" + encodeURIComponent(query))
+                        .then((response) => response.json())
+                        .then((data) => {
+                            callback(data); // Kembalikan data ke Tom Select
+                        })
+                        .catch((error) => {
+                            console.error(
+                                "Error fetching merchant data:",
+                                error
+                            );
+                            callback(); // Jika ada error, kembalikan callback kosong
+                        });
+                },
+            });
+        },
+    }));
 });
 
 function initDarkMode() {
@@ -63,8 +92,6 @@ function initSubNavSticky() {
     var navbar = document.querySelector("#navbar-submenu nav");
     var sticky = navbar?.offsetTop || 0;
 
-
-    console.log(navbar);
     function myFunction() {
         if (navbar) {
             if (window.scrollY >= sticky) {
@@ -93,8 +120,6 @@ function initSidebar() {
             toggleSidebarMobileHamburger.classList.toggle("hidden");
             toggleSidebarMobileClose.classList.toggle("hidden");
         };
-
-        console.log(sidebar);
 
         const toggleSidebarMobileEl = document.getElementById(
             "toggleSidebarMobile"
@@ -137,46 +162,4 @@ function initSidebar() {
             );
         });
     }
-}
-
-function countDown() {
-    const countdownElement = document.getElementById("countdown");
-
-    // Set the date we're counting down to (format: 'YYYY-MM-DDTHH:MM:SS')
-    const countDownDate = new Date("2024-12-31T23:59:59").getTime();
-
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-
-        if (distance < 0) {
-            countdownElement.innerHTML = "Flash Sale Ended!";
-            return;
-        }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        document.getElementById("days").textContent = String(days).padStart(
-            2,
-            "0"
-        );
-        document.getElementById("hours").textContent = String(hours).padStart(
-            2,
-            "0"
-        );
-        document.getElementById("minutes").textContent = String(
-            minutes
-        ).padStart(2, "0");
-        document.getElementById("seconds").textContent = String(
-            seconds
-        ).padStart(2, "0");
-    }
-
-    // Update the countdown every second
-    setInterval(updateCountdown, 1000);
 }

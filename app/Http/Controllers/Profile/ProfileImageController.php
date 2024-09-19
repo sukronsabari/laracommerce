@@ -3,40 +3,42 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Http\Requests\Profile\ProfileImageRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class ProfileImageController extends Controller
 {
-    public function update(Request $request): RedirectResponse
+    public function update(ProfileImageRequest $request): RedirectResponse
     {
-        $request->validate([
-            'image' => ['image', 'mimes:png,jpg,jpeg', 'max:2048']
-        ]);
-
         if (!$request->hasFile('image')) {
             return redirect()->back();;
         }
 
-        $image = request()->file("image");
-        $imageUrl = $image->store('/images/users', ['disk' => 'public']);
+        try {
+            $user = $request->user();
+            $imagePath = $user->image;
+            $defaultProfile = env('DEFAULT_IMAGE_PROFILE', 'images/users/default.png');
 
-        $user = $request->user();
-        $defaultProfile = env('DEFAULT_IMAGE_PROFILE', 'images/users/default.jpg');
-        if ($user->image !== $defaultProfile) {
-            Storage::disk('local')->delete($user->image);
+            if ($imagePath !== $defaultProfile && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+
+            $image = $request->file('image');
+            $imagePath = $image->store('/images/users', ['disk' => 'public']);
+
+            $user->image = $imagePath;
+            $user->save();
+        } catch (\Exception $e) {
+            return redirect()->back()->with('toast-notification', [
+                'type' => 'error',
+                'message' => 'There was an error uploading the banner image. Please try again.'
+            ]);
         }
 
-        $user->image = $imageUrl;
-        $user->save();
-
-        session()->flash("toast-notification", [
+        return redirect()->back()->with("toast-notification", [
             "type" => "success",
             "message" => "Update profile successfully!"
         ]);
-
-        return redirect()->back();
     }
 }

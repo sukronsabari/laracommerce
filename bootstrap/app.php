@@ -21,8 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
             $user = Auth::user();
             if ($user->role->value === 'admin') {
                 return route('admin.dashboard.index');
-            } else if ($user->role->value === 'vendor') {
-                // return route('vendor.dashboard');
+            } else if ($user->role->value === 'merchant') {
                 return "/";
             } else {
                 // return route('home');
